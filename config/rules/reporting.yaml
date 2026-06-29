@@ -1,0 +1,25 @@
+suite_name: reporting_suite
+zone: Reporting
+
+rules:
+
+  - id: REP-001
+    description: "Sum of processed transactions must reconcile with expected ledger target (±2% tolerance)"
+    column: Amount
+    expectation: expect_column_sum_to_be_between
+    params: {}
+    param_refs:
+      min_value: expected_ledger_min
+      max_value: expected_ledger_max
+    dimension: Accuracy
+    criticality: CRITICAL
+
+  - id: REP-002
+    description: "Daily transaction volume must fall within historical min/max thresholds (anomaly gate)"
+    expectation: expect_table_row_count_to_be_between
+    params: {}
+    param_refs:
+      min_value: historical_min_rows
+      max_value: historical_max_rows
+    dimension: Anomaly Detection
+    criticality: WARNING

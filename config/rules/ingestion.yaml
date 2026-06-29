@@ -1,0 +1,41 @@
+suite_name: ingestion_suite
+zone: Ingestion
+
+rules:
+
+  - id: ING-001
+    description: "Transaction dates must fall within the operational calendar year"
+    column: Transaction_Date
+    expectation: expect_column_values_to_be_between
+    params: {}
+    param_refs:
+      min_value: operational_date_min_dt
+      max_value: operational_date_max_dt
+    dimension: Timeliness
+    criticality: WARNING
+
+  - id: ING-002
+    description: "Transaction amounts must be strictly positive (no zero or negative values)"
+    column: Amount
+    expectation: expect_column_values_to_be_between
+    params:
+      min_value: 0
+      strict_min: true
+    dimension: Validity
+    criticality: WARNING
+
+  - id: ING-003
+    description: "PAN (GRC/regulatory field) must never be null — critical compliance requirement"
+    column: PAN
+    expectation: expect_column_values_to_not_be_null
+    params: {}
+    dimension: Completeness
+    criticality: CRITICAL
+
+  - id: ING-004
+    description: "Aadhaar (GRC/regulatory field) must never be null — critical compliance requirement"
+    column: Aadhaar
+    expectation: expect_column_values_to_not_be_null
+    params: {}
+    dimension: Completeness
+    criticality: CRITICAL

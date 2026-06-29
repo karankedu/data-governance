@@ -1,0 +1,22 @@
+suite_name: processing_suite
+zone: Processing
+
+rules:
+
+  - id: PRO-001
+    description: "Transaction IDs must be globally unique to prevent double-counting in ledger"
+    column: Transaction_ID
+    expectation: expect_column_values_to_be_unique
+    params: {}
+    dimension: Uniqueness
+    criticality: CRITICAL
+
+  - id: PRO-002
+    description: "Customer IDs must exist in the Customer Master (referential integrity / FK check)"
+    column: Customer_ID
+    expectation: expect_column_values_to_be_in_set
+    params: {}
+    runtime_params:
+      - value_set
+    dimension: Consistency
+    criticality: WARNING

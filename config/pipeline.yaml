@@ -1,0 +1,19 @@
+pipeline:
+  name: banking_dq_pipeline
+  version: "1.0.0"
+  description: "Banking Shift-Left Data Quality Framework"
+
+data:
+  expected_ledger_total: 50000.00
+  ledger_tolerance_pct: 0.02        # ±2% reconciliation band
+  historical_min_rows: 5
+  historical_max_rows: 1000
+  operational_date_min: "2024-01-01"
+  operational_date_max: "2024-12-31"
+
+logging:
+  level: INFO
+
+output:
+  audit_log_dir: "logs/audit"
+  console: true
